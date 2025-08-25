@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int      @id @default(autoincrement())
+  clerk_id           String   @unique
+  email              String   @unique
+  name               String?
+  unsubscribe_token  String   @unique @default(uuid())
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  preferences  UserPreferences?
+  subscription Subscription?
+
+  @@index([clerk_id])
+  @@index([email])
+  @@index([unsubscribe_token])
+}
+
+model UserPreferences {
+  id         Int      @id @default(autoincrement())
+  user_id    Int      @unique
+  categories String[]
+  frequency  String
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([is_active])
+}
+
+model Subscription {
+  id                     Int                @id @default(autoincrement())
+  user_id                Int                @unique
+  stripe_customer_id     String             @unique
+  stripe_subscription_id String             @unique
+  stripe_price_id        String
+  status                 SubscriptionStatus
+  current_period_start   DateTime
+  current_period_end     DateTime
+  cancel_at_period_end   Boolean            @default(false)
+  created_at             DateTime           @default(now())
+  updated_at             DateTime           @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([stripe_customer_id])
+  @@index([status])
+}
+
+enum SubscriptionStatus {
+  active
+  canceled
+  incomplete
+  incomplete_expired
+  past_due
+  pausing
+  trialing
+  unpaid
+}

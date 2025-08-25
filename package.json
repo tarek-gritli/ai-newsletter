@@ -1,0 +1,50 @@
+{
+  "name": "ai-newsletter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks",
+    "db:push": "dotenv -e .env.local -- prisma db push",
+    "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
+    "db:studio": "dotenv -e .env.local -- prisma studio",
+    "db:generate": "dotenv -e .env.local -- prisma generate"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.31.1",
+    "@emailjs/nodejs": "^5.0.2",
+    "@prisma/client": "^6.14.0",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "@trigger.dev/sdk": "^4.0.1",
+    "inngest": "^3.40.1",
+    "lucide-react": "^0.539.0",
+    "marked": "^16.1.0",
+    "next": "15.4.1",
+    "nodemailer": "^7.0.5",
+    "openai": "^5.10.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "stripe": "^18.3.0",
+    "svix": "^1.74.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@trigger.dev/build": "^4.0.1",
+    "@types/node": "^20.19.11",
+    "@types/nodemailer": "^7.0.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv-cli": "^10.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.1",
+    "prisma": "^6.14.0",
+    "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
