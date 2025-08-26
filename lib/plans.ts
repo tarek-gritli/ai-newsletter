@@ -14,7 +14,7 @@ export const availablePlans: Plan[] = [
     price: 9.99,
     currency: "USD",
     interval: "month",
-    priceId: process.env.STRIPE_MONTHLY_PRICE_ID!,
+    priceId: process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID!,
   },
   {
     id: "year",
@@ -22,7 +22,7 @@ export const availablePlans: Plan[] = [
     price: 99.99,
     currency: "USD",
     interval: "year",
-    priceId: process.env.STRIPE_YEARLY_PRICE_ID!,
+    priceId: process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID!,
   },
 ];
 

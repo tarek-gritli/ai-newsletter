@@ -2,10 +2,11 @@
 
 import { currentUser } from "@clerk/nextjs/server";
 import { stripe } from "@/lib/stripe";
+import { availablePlans, type Plan } from "@/lib/plans";
 
 const DOMAIN = process.env.NEXT_PUBLIC_APP_URL;
 
-export async function createCheckoutSession(planChoice: "month" | "year") {
+export async function createCheckoutSession(planChoice: Plan["id"]) {
   const user = await currentUser();
 
   if (!user) {
@@ -16,10 +17,13 @@ export async function createCheckoutSession(planChoice: "month" | "year") {
   }
 
   try {
-    const priceId =
-      planChoice === "month"
-        ? process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID
-        : process.env.NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID;
+    const selectedPlan = availablePlans.find(plan => plan.id === planChoice);
+    
+    if (!selectedPlan) {
+      throw new Error("Invalid plan selected");
+    }
+
+    const priceId = selectedPlan.priceId;
 
     if (!priceId) {
       throw new Error("Price ID not configured");

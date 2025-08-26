@@ -84,7 +84,7 @@ export const getCronFromFrequency = (frequency: string): string => {
     case "weekly":
       return "0 9 * * 1";
     case "biweekly":
-      return "0 9 * * 1/2";
+      return "0 9 */14 * *";
     default:
       return "0 9 * * 1";
   }
