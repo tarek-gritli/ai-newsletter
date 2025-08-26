@@ -22,7 +22,7 @@ export default function Page() {
         }}
         routing="path"
         path="/sign-up"
-        afterSignUpUrl="/dashboard/campaigns"
+        fallbackRedirectUrl="/subscribe"
         signInUrl="/sign-in"
       />
     </div>
